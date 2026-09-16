@@ -27,3 +27,6 @@ This rule applies specifically to tasks involving forms and failed data writes, 
 
 **Prompt Snippet**: When implementing the availability form and localStorage behavior, preserve the user's unsaved form input if a write fails so the user does not have to re-enter the information.
 
+## Colleague Test
+Kyla read my 'CLAUDE.md' and said that the instructions were concise and understandable overall. She correctly interpreted the camelCase naming convention and lexical scope, but asked for clarification about what "controls" meant. Based on her feedback, I revised the instructions in 'CLAUDE.md' from "Label controls" to "Associate form inputs, such as text fields and buttons, with clear labels." This makes the instruction more accessible to someone who is not already familiar with the term "controls". 
+
