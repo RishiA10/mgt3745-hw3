@@ -1,90 +1,121 @@
 (() => {
   'use strict';
 
-  const storageKey = 'mgt3745.notes.v617';
-  const noteForm = document.querySelector('#note-form');
-  const noteInput = document.querySelector('#note-input');
-  const noteList = document.querySelector('#note-list');
-  const noteError = document.querySelector('#note-error');
+  const storageKey = 'mgt3745.availability.v1';
+
+  const availabilityForm = document.querySelector('#availability-form');
+  const dateInput = document.querySelector('#date-input');
+  const startTimeInput = document.querySelector('#start-time-input');
+  const endTimeInput = document.querySelector('#end-time-input');
+  const reasonInput = document.querySelector('#reason-input');
+  const availabilityList = document.querySelector('#availability-list');
+  const formError = document.querySelector('#form-error');
   const saveStatus = document.querySelector('#save-status');
   const emptyState = document.querySelector('#empty-state');
-  // The query switch enables a repeatable classroom failure without filling real storage.
-  const simulateFailedSave = new URLSearchParams(window.location.search).has('failSave');
-  let notes = loadNotes();
 
-  function loadNotes() {
+  const simulateFailedSave = new URLSearchParams(window.location.search).has('failSave');
+
+  let availabilityEntries = loadAvailability();
+
+  function loadAvailability() {
     try {
       const storedText = window.localStorage.getItem(storageKey);
       const parsed = storedText === null ? [] : JSON.parse(storedText);
-      if (!Array.isArray(parsed) || parsed.some(note => typeof note !== 'string')) {
+
+      if (!Array.isArray(parsed)) {
         throw new Error('Unexpected stored data');
       }
+
       return parsed;
     } catch {
-      saveStatus.textContent = 'Saved notes could not be read. Original storage was left unchanged. A successful new save will replace it.';
+      saveStatus.textContent =
+        'Saved availability could not be read. Original storage was left unchanged.';
       return [];
     }
   }
 
-  function saveNotes(nextNotes) {
+  function saveAvailability(nextEntries) {
     try {
-      if (simulateFailedSave) throw new Error('Simulated write failure');
-      // Persist the proposed state before changing the visible state or clearing input.
-      window.localStorage.setItem(storageKey, JSON.stringify(nextNotes));
+      if (simulateFailedSave) {
+        throw new Error('Simulated write failure');
+      }
+
+      window.localStorage.setItem(storageKey, JSON.stringify(nextEntries));
       return true;
     } catch {
-      noteError.textContent = 'Could not save. Your text is still here. Try again when storage is available.';
+      formError.textContent =
+        'Could not save. Your information is still here. Try again when storage is available.';
       saveStatus.textContent = '';
       return false;
     }
   }
 
-  function renderNotes() {
-    noteList.replaceChildren();
-    emptyState.hidden = notes.length > 0;
-    notes.forEach((note, index) => {
+  function renderAvailability() {
+    availabilityList.replaceChildren();
+    emptyState.hidden = availabilityEntries.length > 0;
+
+    availabilityEntries.forEach(entry => {
       const listItem = document.createElement('li');
-      const noteText = document.createElement('span');
-      noteText.textContent = note;
-      const deleteButton = document.createElement('button');
-      deleteButton.type = 'button';
-      deleteButton.textContent = 'Delete';
-      deleteButton.setAttribute('aria-label', `Delete note ${index + 1}: ${note}`);
-      deleteButton.addEventListener('click', () => {
-        const nextNotes = notes.filter((entry, entryIndex) => entryIndex !== index);
-        if (!saveNotes(nextNotes)) return;
-        notes = nextNotes;
-        noteError.textContent = '';
-        renderNotes();
-        saveStatus.textContent = 'Note deleted.';
-        noteInput.focus();
-      });
-      listItem.append(noteText, deleteButton);
-      noteList.append(listItem);
+
+      const dateText = document.createElement('strong');
+      dateText.textContent = entry.date;
+
+      const timeText = document.createElement('span');
+      timeText.textContent = ` — ${entry.startTime} to ${entry.endTime}`;
+
+      listItem.append(dateText, timeText);
+
+      if (entry.reason) {
+        const reasonText = document.createElement('span');
+        reasonText.textContent = ` — ${entry.reason}`;
+        listItem.append(reasonText);
+      }
+
+      availabilityList.append(listItem);
     });
   }
 
-  noteForm.addEventListener('submit', event => {
+  availabilityForm.addEventListener('submit', event => {
     event.preventDefault();
-    const candidate = noteInput.value.trim();
-    const characterCount = Array.from(candidate).length;
-    if (characterCount < 1 || characterCount > 200) {
-      noteError.textContent = 'Enter a note containing 1–200 characters.';
-      noteInput.setAttribute('aria-invalid', 'true');
-      saveStatus.textContent = '';
-      noteInput.focus();
+
+    const date = dateInput.value;
+    const startTime = startTimeInput.value;
+    const endTime = endTimeInput.value;
+    const reason = reasonInput.value.trim();
+
+    formError.textContent = '';
+    saveStatus.textContent = '';
+
+    if (!date || !startTime || !endTime) {
+      formError.textContent = 'Enter a date, start time, and end time.';
       return;
     }
-    noteInput.removeAttribute('aria-invalid');
-    noteError.textContent = '';
-    const nextNotes = [...notes, candidate];
-    if (!saveNotes(nextNotes)) return;
-    notes = nextNotes;
-    renderNotes();
-    noteInput.value = '';
-    noteInput.focus();
-    saveStatus.textContent = 'Note saved in this browser.';
+
+    if (endTime <= startTime) {
+      formError.textContent = 'End time must be later than start time.';
+      return;
+    }
+
+    const nextEntry = {
+      date,
+      startTime,
+      endTime,
+      reason
+    };
+
+    const nextEntries = [...availabilityEntries, nextEntry];
+
+    if (!saveAvailability(nextEntries)) {
+      return;
+    }
+
+    availabilityEntries = nextEntries;
+    renderAvailability();
+
+    availabilityForm.reset();
+    dateInput.focus();
+    saveStatus.textContent = 'Availability saved in this browser.';
   });
 
-  renderNotes();
+  renderAvailability();
 })();
