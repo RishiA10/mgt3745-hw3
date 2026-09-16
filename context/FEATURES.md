@@ -54,3 +54,15 @@ I reviewed the specification from the perspective of someone who was not involve
 ## AI assistance
 Record assistance and how you verified it. Do not invent interview evidence. Full Delegation Decision Records begin at HW5.
 I used ChatGPT to help organize my findings and structure the specification. I did not use AI to create or invent interview evidence. 
+
+## Verification
+
+- **PASS — Ubiquitous:** When a member submits unavailable times, the system shall save and display the submitted availability. I entered a date, start time, end time, and academic conflict. The entry appeared under Submitted Availability and remained after refreshing the page.
+
+- **CANNOT TEST YET — Event-driven:** When a proposed practice conflicts with submitted availability, the system shall identify the conflict for team leadership. The current feature does not include proposed practice entry or conflict detection.
+
+- **CANNOT TEST YET — State-driven:** While leadership finalizes a practice, the system shall display the practice date, time, and expected end time to team members. Practice finalization is not implemented in the current feature.
+
+- **CANNOT TEST YET — Unwanted:** If leadership changes a finalized practice time, then the system shall update the schedule and notify affected team members. Schedule changes and notifications are not implemented in the current feature.
+
+- **CANNOT TEST YET — Optional:** Where a member updates their availability and it conflicts with a finalized practice, the system shall identify the conflict without automatically changing the practice. Finalized practices and conflict detection are not implemented in the current feature.
