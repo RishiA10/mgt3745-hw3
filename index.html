@@ -3,25 +3,51 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Meeting notes | MGT 3745 starter</title>
+  <title>Member Availability | Dance Team Scheduler</title>
   <link rel="stylesheet" href="styles.css">
   <script src="app.js" defer></script>
 </head>
 <body>
   <main>
-    <h1>Meeting notes</h1>
-    <p>Keep short notes in this browser. Use fictional, non-sensitive information.</p>
-    <form id="note-form" novalidate>
-      <label for="note-input">New note</label>
-      <p id="note-help">Enter 1–200 characters. Notes stay in this browser profile and site only.</p>
-      <input id="note-input" name="note" type="text" aria-describedby="note-help note-error" autocomplete="off">
-      <button type="submit">Save note</button>
-      <p id="note-error" role="alert"></p>
+    <h1>Member Availability</h1>
+    <p>
+      Submit times when you are unavailable for practice.
+      Your availability is saved in this browser.
+    </p>
+
+    <form id="availability-form" novalidate>
+      <label for="date-input">Date</label>
+      <input id="date-input" name="date" type="date" required>
+
+      <label for="start-time-input">Start time</label>
+      <input id="start-time-input" name="startTime" type="time" required>
+
+      <label for="end-time-input">End time</label>
+      <input id="end-time-input" name="endTime" type="time" required>
+
+      <label for="reason-input">Academic conflict or reason (optional)</label>
+      <input
+        id="reason-input"
+        name="reason"
+        type="text"
+        maxlength="200"
+        aria-describedby="reason-help"
+        autocomplete="off"
+      >
+      <p id="reason-help">
+        For example: exam, class, interview preparation, or another commitment.
+      </p>
+
+      <button type="submit">Add Availability</button>
+
+      <p id="form-error" role="alert"></p>
     </form>
+
     <p id="save-status" role="status" aria-live="polite"></p>
-    <h2>Saved notes</h2>
-    <p id="empty-state">No saved notes yet.</p>
-    <ul id="note-list" aria-label="Saved notes"></ul>
+
+    <h2>Submitted Availability</h2>
+    <p id="empty-state">No availability submitted yet.</p>
+    <ul id="availability-list" aria-label="Submitted availability"></ul>
   </main>
 </body>
 </html>
