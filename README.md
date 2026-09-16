@@ -10,15 +10,9 @@ Dance Team Member Availability is a browser-based feature that helps competitive
 
 ## See It Work
 
-<!-- REQUIRED: at least one image or GIF of the feature meeting an EARS statement.
-     Put media in the docs/ folder. Keep GIFs under 5 MB.
-     Record: macOS Cmd+Shift+5, Windows Win+Alt+R or Snipping Tool video. Convert at ezgif.com.
-     Markdown image syntax: -->
-Put a screenshot or GIF under docs/ and link it here with descriptive alt text. Explain which acceptance criterion it demonstrates.
-![Saving an entry and seeing it appear in the list](docs/demo.gif)
+![Member availability successfully saved and displayed](docs/hw%203%20screenshot.png)
 
-<!-- HTML gives you sizing control markdown does not: -->
-<!-- <img src="docs/screenshot.png" width="480" alt="The entry list after three saves"> -->
+The screenshot demonstrates the selected EARS acceptance statement: when a member submits unavailable times, the system saves and displays the submitted availability. The saved entry appears under **Submitted Availability** after submission.
 
 ## How to Run
 
@@ -39,44 +33,44 @@ If Live Server is unavailable, run `node scripts/serve.mjs` in the terminal, the
 
 ## How It Works
 
-<!-- GitHub renders Mermaid natively inside a ```mermaid fence. -->
-
 ```mermaid
 flowchart TD
- A[Page opens] --> B[loadNotes: read and validate localStorage]
-  B --> C[renderNotes: draw current state]
-  D[User submits entry] --> E{Trimmed input is 1 to 200 characters?}
-  E -->|No| F[Show validation error and keep input]
-  E -->|Yes| G[Create proposed notes array]
-  G --> H{saveNotes: storage write succeeds?}
-  H -->|No| I[Show save error; keep input and current list]
-  H -->|Yes| J[Update in-memory notes]
-  J --> K[renderNotes: redraw list]
-  K --> L[Clear input and announce saved]
+  A[Page opens] --> B[loadAvailability reads localStorage]
+  B --> C[renderAvailability displays saved entries]
+  D[Member submits availability] --> E{Required fields completed?}
+  E -->|No| F[Show validation error]
+  E -->|Yes| G{End time later than start time?}
+  G -->|No| H[Show time validation error]
+  G -->|Yes| I[Create availability entry]
+  I --> J{Save to localStorage succeeds?}
+  J -->|No| K[Show save error and preserve input]
+  J -->|Yes| L[Update availability entries]
+  L --> M[Render submitted availability]
+  M --> N[Clear form and show save confirmation]
 ```
 
-This diagram describes the starter's load-and-add flow. Update it to match your implementation. In `app.js`, `loadNotes` reads stored data, `saveNotes` attempts to persist a proposed state, and `renderNotes` draws the current state using `textContent` for user text. The submit handler validates input and updates the visible state only after a successful save. Delete also saves the proposed state before redrawing. A read failure shows a warning and starts with an empty in-memory list; it leaves the original storage unchanged until a successful new save replaces it.
+When the page loads, `loadAvailability()` reads previously saved availability from browser `localStorage`, and `renderAvailability()` displays those entries. When a member submits the form, the application checks that the required fields are complete and that the end time is later than the start time. A valid entry is saved to `localStorage` before the visible state is updated. User-provided text is displayed with `textContent` rather than `innerHTML`. If the storage write fails, the application displays an error and preserves the member's unsaved input.
 
 ## Status
 
 | Area | State | Why |
 |------|-------|-----|
-| Save and display | [Works / Partial / Broken / Not tested] | [Link your verification evidence] |
-| Invalid input | [Works / Partial / Broken / Not tested] | [Link your verification evidence] |
-| Data survives reload / storage failure | [Works / Partial / Broken / Not tested] | [Link your verification evidence] |
+| Save and display | [Works] | Submitted availability was saved and displayed successfully. |
+| Invalid input | [Works] | An end time earlier than the start time was rejected with a validation message. |
+| Data survives reload / storage failure | [Works] | The saved availability remained visible after refreshing the page. |
 | Multi-user sync (starter limitation) | Deferred | Browser-local storage does not provide sync. Explain your own scope and decision in [ADR-001](context/ARCHITECTURE.md). |
 
 
 <details>
 <summary>Verification results (click to expand)</summary>
 
-Keep the full verification record in [FEATURES.md](context/FEATURES.md). Summarize it here or link directly to its Verification section; keep both consistent.
+The full acceptance-statement verification record is available in [FEATURES.md](context/FEATURES.md).
 
 | Criterion / EARS statement | Steps and input | Expected result | Observed result | Status | Evidence / commit |
 |---|---|---|---|---|---|
-| [Your selected criterion ID] | [Reproducible procedure] | [State before testing] | [What actually happened] | [PASS / FAIL / CANNOT TEST / DEFERRED] | [Link] |
-
-Cover a normal action, relevant invalid input, and persistence or failure. PASS requires observed results that match expectations; all-PASS is acceptable with evidence. For CANNOT TEST, state the limitation and next step. Identify unselected requirements separately; DEFERRED does not waive the required HW3 feature. A screenshot alone cannot establish reload or storage-failure behavior.
+| Save and display availability | Submitted a date, start time, end time, and academic conflict/reason | Entry is saved and displayed | Entry appeared under Submitted Availability | PASS | [Screenshot](docs/hw%203%20screenshot.png) |
+| Invalid time range | Entered a start time of 9:00 PM and an end time of 7:00 PM, then submitted the form | The application rejects the invalid time range | The application displayed "End time must be later than start time." | PASS | [Verification](context/FEATURES.md) |
+| Persistence after reload | Saved an availability entry and refreshed the page | The saved availability stayed even after the page reloaded | The previously saved entry was visible after refresh | PASS | [Verification](context/FEATURES.md) |
 
 </details>
 
@@ -94,34 +88,24 @@ Read in this order:
 
 The scaffold has **eleven canonical files in `/context`: six active files above and five previews**: [STYLE.md](context/STYLE.md), [TOOLS.md](context/TOOLS.md), [SKILLS.md](context/SKILLS.md), [EVALS.md](context/EVALS.md), and [AGENTS.md](context/AGENTS.md). Keep the previews; verification stays in FEATURES.md until EVALS.md activates in Module 5.
 
-Root README.md and the two instruction adapters—[CLAUDE.md](CLAUDE.md) and [.github/copilot-instructions.md](.github/copilot-instructions.md)—are additional files. Copy your HW2 USERS.md and FEATURES.md into `/context` and revise them using instructor feedback if available; otherwise record a peer criterion check and mark instructor feedback pending. Run `node scripts/check-scaffold.mjs` to check required file presence; this does not assess content quality.
 
 ## AI Use
 
-<!-- A Delegation Decision Record without the name. From HW5 this becomes a formal DDR. -->
+**Tool and task delegated:** ChatGPT was used to help organize the Build-Buy-Delegate Gate and ADR, and structure the order in which I completed the required sections.
 
-**Tool and task delegated:** [Which parts a tool drafted: e.g. "Copilot drafted render() and the CSS."]
+**Why:** I used AI to make the assignment easier to follow and organize my thoughts clearly.
 
-**Why:** [The reason it made sense to delegate that part rather than write it.]
+**How it was checked:** I reviewed the final project myself and manually tested the application in my Github Codespace.
 
-**How it was checked:** [What you inspected, what you changed, what you caught. "Replaced innerHTML with textContent" is the kind of sentence that belongs here.]
+**Observed result / evidence:** I verified that availability could be submitted and displayed, remained after the page was refreshed, and that an invalid time range was rejected. See the [verification results](context/FEATURES.md) and [screenshot](docs/hw%203%20screenshot.png).
 
-**Observed result / evidence:** [What the checks actually showed; link the relevant verification row, code change, or other evidence. Do not invent a run.]
 
-If no AI assistance was used, say so and describe your independent check. Full Delegation Decision Records begin at HW5; this lightweight record is sufficient here.
-
-**Instruction discovery and compliance:** [Record the tool and mode, which instruction adapter it discovered, and the reference or diagnostic evidence. Separately report whether one generated change followed the applicable standards. If no live AI tool is available, write “not run” and record a manual standards review.]
-
-**Actual hours on this assignment (optional):** [A number, if you choose to report it. The amount or omission does not affect points; the AI-use record does.]
+**Instruction discovery and compliance:** Not run. I manually reviewed the final project against the repository instructions and standards. 
 
 ## Explain, Change, Verify
 
-[Identify one function and explain its input, state changes, and output in your own words. Link a meaningful before/after code change, state its expected effect, and record the observed behavior and evidence. Explain why the change matters to your selected requirement. This paragraph is part of the existing README submission.]
+Explain: The 'saveAvailability()' function takes the updated list of availability entries and saves it to 'localStorage'. If the save is successful, it returns 'true'. If the save fails, it displays an error message and returns 'false'. 
 
-<!-- Things this README could also do, if they earn their place:
-     - GitHub alerts:  > [!NOTE]  > [!WARNING]  > [!TIP]
-     - Task lists:     - [x] done   - [ ] not yet
-     - Emoji:          :rocket: :white_check_mark:
-     - Footnotes:      text[^1]  ...  [^1]: the note
-     - Embedded HTML tables, <kbd>Ctrl</kbd>+<kbd>S</kbd>, <sup>, <sub>
-     None are required. A README that reads well with none of them beats one that uses all of them. -->
+Change: I changed the starter application from a meeting notes example to a member availability feature for my competitive dance team scheduling problem. The application lets a member enter a date, start time, end time, and an optional reason for being unavailable that day. This change supports F-01 in my FEATURES.md because members need a way to enter and save their unavailable times. 
+
+Verify: I ran the application using Live Server in my GitHub Codespace. I submitted an availability entry and confirmed that it appeared under Submitted Availability. I refreshed the page and confirmed that the entry remained there. I also tested an invalid time range by making the end time earlier than the start time, and the application displayed an error message. See the [verification results](context/FEATURES.md) and [screenshot](docs/hw%203%20screenshot.png).  
