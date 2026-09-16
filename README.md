@@ -1,17 +1,12 @@
-# [Project Name]
+# Dance Team Member Availability
 
 <!-- Badges are optional but cheap. shields.io generates them from a URL. -->
 ![Status](https://img.shields.io/badge/status-in%20progress-yellow)
 ![Module](https://img.shields.io/badge/MGT%203745-HW3-051E39)
 
-> HW3, MGT 3745 O. Replace every [bracketed prompt] with your own writing.
-> Lines between `<!--` and `-->` are notes to you. They are invisible on GitHub. Delete them when done.
-> This README is the first thing an employer, a teammate, or an agent reads. It makes
-> a case for the repository. Show, then tell.
-
 ## What
 
-Replace this title and paragraph with your chosen feature and link [PROJECT.md](context/PROJECT.md) and [FEATURES.md](context/FEATURES.md). This runnable "meeting notes" application is a teaching starter, not a completed student submission. Adapt it to your researched feature and make a meaningful change you can explain.
+Dance Team Member Availability is a browser-based feature that helps competitive dance team members record times when they are unavailable for practice. Members can submit a date, start time, end time, and an optional academic conflict/reason. The application saves and displays submitted availability so that scheduling constraints can be recorded before practices are planned. The broader problem is described in [PROJECT.md](context/PROJECT.md), and the feature requirements and acceptance criteria are documented in [FEATURES.md](context/FEATURES.md).
 
 ## See It Work
 
