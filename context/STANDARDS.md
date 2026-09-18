@@ -21,7 +21,7 @@ This rule applies to nearly every JavaScript task in the project and should rema
 This rule applies whenever code displays user-provided text and remains the same across those tasks. Putting conflicting instructions elsewhere could create a clash between safe text and generated code that uses 'innerHTML'. Because this is an important and stable rule, it belongs in 'CLAUDE.md'.
 **Verdict**: This rule belongs in 'CLAUDE.md'
 
-### Rule 2: Preserve unsaved input after a failed write
+### Rule 3: Preserve unsaved input after a failed write
 This rule applies specifically to tasks involving forms and failed data writes, not every task in the project. Keeping it in persistent context could distract the agent when it works on unrelated tasks such as styling or documentation. It is better provided when implementing form submission and storage behavior. 
 **Verdict**: This rule belongs in the prompt for the tasks that need it. 
 
