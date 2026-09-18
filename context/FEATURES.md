@@ -1,7 +1,5 @@
 # Features and specification
 
-# Features and specification
-
 ## Context
 The situation, job, and desired progress: Competitive dance members must balance practices with academic responsibilities like coursework, exams, interview prep, etc. Interviews showed that practices can end later than expected, which reduces the time available for sleeping and studying even when students plan their academic work. The job is to help the team members coordinate academic constraints while protecting necessary academic preparation and sleep. The progress is a practice schedule that accounts for member availability and important academic conflicts while also letting the team meet competition and performance requirements. 
 
@@ -12,7 +10,6 @@ Profiles and evidence in USERS.md: The primary users are competitive dance team 
 Included behavior and explicit non-goals: The system allows team members to enter their availability and important academic conflicts, allows team leadership to enter practice requirements and important team dates, and uses that information to create and communicate a practice schedule. Members will be able to view scheduled practice times and change to those times. The system will also identify conflicts between submitted member availability and proposed practices so leadership can consider them before finalizing their schedules. The system will not decide whether a student's academics or dance commitments should take priority. It will not guarantee an exact practice end time when circumstances during practice require the team to continue longer.
 
 ### Kano hypotheses
-Provide at least six features. For each, name the user segment, date, category, and evidence-based reasoning. These are tentative hypotheses, not validated survey findings.
 
 | Feature ID | Feature | Kano hypothesis | Segment / date | Evidence and reasoning |
 |---|---|---|---|---|
@@ -37,22 +34,21 @@ Platform, data, privacy, scope, and relevant limits:
 2. Member availability and academic-conflict information must only be visible when needed for scheduling.
 3. The system must allow leadership to make final scheduling decisions rather than automatically prioritizing one member's conflict over another.
 4. The system only manages practice scheduling and does not manage coursework, grades, or personal academic records.
-## Acceptance
-Replace examples with criteria for your feature. Choose the pattern that fits; HW2 does not require both WHEN and IF.
 
-- Ubiquitous: When a member submits unavailable times, the system shall [save and display the submitted availability].
-- Event-driven: When [a proposed practice conflicts with submitted availability], the system shall [identify the conflict for team leadership].
-- State-driven: While [leadership finalizes a practice], the system shall [display the practice date, time, and expected end time to team members].
-- Unwanted: If [leadership changes a finalized practice time], then the system shall [update the schedule and notify affected team members].
-- Optional: Where [a member updates their availability and it conflicts with a finalized practice], the system shall [identify the conflict without automatically changing the practice].
+## Acceptance
+
+- Ubiquitous: When a member submits unavailable times, the system shall save and display the submitted availability.
+- Event-driven: When a proposed practice conflicts with submitted availability, the system shall identify the conflict for team leadership.
+- State-driven: While leadership finalizes a practice, the system shall display the practice date, time, and expected end time to team members.
+- Unwanted: If leadership changes a finalized practice time, then the system shall update the schedule and notify affected team members.
+- Optional: Where a member updates their availability and it conflicts with a finalized practice, the system shall identify the conflict without automatically changing the practice.
 
 ## Handoff reflection
-Describe how another reader checked the specification, any ambiguity found, your revisions, and remaining limits. If no gap was found, describe the check and its limits. Do not invent a gap.
 
 I reviewed the specification from the perspective of someone who was not involved in the interviews and found that the system still leaves team leadership responsible for resolving scheduling conflicts. I revised the specification to make clear that the system identifies conflicts but does not automatically prioritize academic or dance commitments. A remaining limitation is determining how far in advance members must submit availability and when a practice schedule should become final. 
 
 ## AI assistance
-Record assistance and how you verified it. Do not invent interview evidence. Full Delegation Decision Records begin at HW5.
+
 I used ChatGPT to help organize my findings and structure the specification. I did not use AI to create or invent interview evidence. 
 
 ## Verification
